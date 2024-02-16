@@ -5,18 +5,19 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "users".
+ * This is the model class for table "user_roles".
  *
  * @property int $id
+ * @property string|null $role_name
  */
-class User extends \yii\db\ActiveRecord
+class UserRoles extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'users';
+        return 'user_roles';
     }
 
     /**
@@ -24,7 +25,9 @@ class User extends \yii\db\ActiveRecord
      */
     public function rules()
     {
-        return [];
+        return [
+            [['role_name'], 'string', 'max' => 255],
+        ];
     }
 
     /**
@@ -34,6 +37,7 @@ class User extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
+            'role_name' => 'Role Name',
         ];
     }
 }
