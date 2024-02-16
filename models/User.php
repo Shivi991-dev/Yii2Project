@@ -40,4 +40,9 @@ class User extends \yii\db\ActiveRecord
     {
         return static::findOne(['email' => $email]);
     }
+    public function validatePassword($password)
+    {
+    return Yii::$app->security->validatePassword($password, $this->password);
+    }
+
 }

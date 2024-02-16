@@ -78,9 +78,9 @@ class SiteController extends Controller
             return $this->goHome();
         }
 
-        $model = new LoginPostForm();
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            echo 'HELLO';
+        $model = new LoginForm();
+        if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->login()) {
+            return $this->render('dashboard');
         }else{
             echo 'False';
         }

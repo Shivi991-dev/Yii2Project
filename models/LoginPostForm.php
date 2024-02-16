@@ -12,7 +12,8 @@ class LoginPostForm extends Model
     {
         return [
             [['email','password'],'required'],
-            ['email','email']
+            ['email','email'],
+            ['password','validatePassword']
         ];
     }
 }
