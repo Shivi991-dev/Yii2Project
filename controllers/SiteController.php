@@ -9,6 +9,9 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\models\LoginPostForm;
+use app\models\SignUpForm;
+use app\models\User;
 
 class SiteController extends Controller
 {
@@ -75,13 +78,46 @@ class SiteController extends Controller
             return $this->goHome();
         }
 
-        $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+        $model = new LoginPostForm();
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            echo 'HELLO';
+        }else{
+            echo 'False';
         }
 
         $model->password = '';
         return $this->render('login', [
+            'model' => $model,
+        ]);
+    }
+    public function actionSignup()
+    {
+        $model = new SignUpForm();
+        if($model->load(Yii::$app->request->post()) && $model->validate()){
+            if (User::findByEmail($model->email)) {
+                Yii::$app->session->setFlash('error', 'User with this email already exists.');
+                return $this->refresh(); 
+            }
+           $user = new User();
+           $user->name = $model->name;
+           $user->email = $model->email;
+           $user->password = Yii::$app->security->generatePasswordHash($model->password);
+           if($model->role == 'Admin'){
+               $user->role = 1;
+           }elseif($model->role == 'User'){
+               $user->role = 2;
+           }else{
+               $user->role = 3;
+           }
+           $user->save();
+           Yii::$app->session->setFlash('success', 'Registration successful!');
+           return $this->goHome();
+
+        }
+        else{
+            echo false;
+        }
+        return $this->render('signup', [
             'model' => $model,
         ]);
     }
@@ -124,5 +160,11 @@ class SiteController extends Controller
     public function actionAbout()
     {
         return $this->render('about');
+    }
+
+    public function actionPostForm(){
+        if (Yii::$app->request->isPost) {
+            echo 'HELLO';
+       }
     }
 }

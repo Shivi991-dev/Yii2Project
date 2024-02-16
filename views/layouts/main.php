@@ -1,3 +1,21 @@
+<?php
+use yii\helpers\Html;
+use yii\bootstrap5\Alert;
+$sessionSuccess = Yii::$app->session->getFlash('success');
+$sessionError = Yii::$app->session->getFlash('error');
+if($sessionSuccess){
+    echo Alert::widget([
+        'options' => ['class' => 'alert-success'],
+        'body' => $sessionSuccess,
+    ]);
+}
+if($sessionError){
+    echo Alert::widget([
+        'options' => ['class' => 'alert-error'],
+        'body' => $sessionError,
+    ]);
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,6 +24,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
     <title>Yii2 Project</title>
+    <?= Html::csrfMetaTags() ?>
+
 </head>
 <body>
     <header class="navigation">
@@ -24,7 +44,7 @@
                 <a class="nav-link" href="/site/login">Login</a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link" href="#">Pricing</a>
+                <a class="nav-link" href="/site/signup">SignUp</a>
                 </li>
                 <li class="nav-item">
                 <a class="nav-link disabled" aria-disabled="true">Disabled</a>

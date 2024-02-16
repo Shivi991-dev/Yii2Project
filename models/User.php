@@ -36,4 +36,8 @@ class User extends \yii\db\ActiveRecord
             'id' => 'ID',
         ];
     }
+    public static function findByEmail($email)
+    {
+        return static::findOne(['email' => $email]);
+    }
 }
